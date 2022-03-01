@@ -1,0 +1,92 @@
+2022-02-17 17:24:13.430 AEDT [1337398] LOG:  starting PostgreSQL 13.5 (Debian 13.5-0+deb11u1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
+2022-02-17 17:24:13.431 AEDT [1337398] LOG:  listening on Unix socket "/localstorage/z5310901/pgsql/data/.s.PGSQL.5432"
+2022-02-17 17:24:13.435 AEDT [1337399] LOG:  database system was shut down at 2022-02-17 17:02:22 AEDT
+2022-02-17 17:24:13.439 AEDT [1337398] LOG:  database system is ready to accept connections
+2022-02-17 17:28:43.926 AEDT [1337398] LOG:  received fast shutdown request
+2022-02-17 17:28:43.928 AEDT [1337398] LOG:  aborting any active transactions
+2022-02-17 17:28:43.931 AEDT [1337398] LOG:  background worker "logical replication launcher" (PID 1337405) exited with exit code 1
+2022-02-17 17:28:43.931 AEDT [1337400] LOG:  shutting down
+2022-02-17 17:28:43.943 AEDT [1337398] LOG:  database system is shut down
+2022-02-24 15:18:19.466 AEDT [638111] LOG:  starting PostgreSQL 13.5 (Debian 13.5-0+deb11u1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
+2022-02-24 15:18:19.468 AEDT [638111] LOG:  listening on Unix socket "/localstorage/z5310901/pgsql/data/.s.PGSQL.5432"
+2022-02-24 15:18:19.475 AEDT [638114] LOG:  database system was shut down at 2022-02-17 17:28:43 AEDT
+2022-02-24 15:18:19.484 AEDT [638111] LOG:  database system is ready to accept connections
+2022-02-24 15:21:25.663 AEDT [640946] FATAL:  database "z5310901" does not exist
+2022-02-24 15:27:06.589 AEDT [638111] LOG:  received fast shutdown request
+2022-02-24 15:27:06.593 AEDT [638111] LOG:  aborting any active transactions
+2022-02-24 15:27:06.596 AEDT [638111] LOG:  background worker "logical replication launcher" (PID 638120) exited with exit code 1
+2022-02-24 15:27:06.596 AEDT [638115] LOG:  shutting down
+2022-02-24 15:27:06.608 AEDT [638111] LOG:  database system is shut down
+2022-02-24 15:42:30.707 AEDT [661406] LOG:  starting PostgreSQL 13.5 (Debian 13.5-0+deb11u1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
+2022-02-24 15:42:30.709 AEDT [661406] LOG:  listening on Unix socket "/localstorage/z5310901/pgsql/data/.s.PGSQL.5432"
+2022-02-24 15:42:30.716 AEDT [661407] LOG:  database system was shut down at 2022-02-24 15:27:06 AEDT
+2022-02-24 15:42:30.723 AEDT [661406] LOG:  database system is ready to accept connections
+2022-02-26 15:27:42.262 AEDT [2912441] FATAL:  lock file "postmaster.pid" already exists
+2022-02-26 15:27:42.262 AEDT [2912441] HINT:  Is another postmaster (PID 661406) running in data directory "/localstorage/z5310901/pgsql/data"?
+2022-02-26 15:34:16.486 AEDT [2917545] FATAL:  lock file "postmaster.pid" already exists
+2022-02-26 15:34:16.486 AEDT [2917545] HINT:  Is another postmaster (PID 661406) running in data directory "/localstorage/z5310901/pgsql/data"?
+2022-02-26 15:37:31.766 AEDT [661406] LOG:  received fast shutdown request
+2022-02-26 15:37:31.771 AEDT [661406] LOG:  aborting any active transactions
+2022-02-26 15:37:31.773 AEDT [661406] LOG:  background worker "logical replication launcher" (PID 661413) exited with exit code 1
+2022-02-26 15:37:31.775 AEDT [661408] LOG:  shutting down
+2022-02-26 15:37:31.787 AEDT [661406] LOG:  database system is shut down
+2022-02-26 15:37:33.767 AEDT [2920415] LOG:  starting PostgreSQL 13.5 (Debian 13.5-0+deb11u1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
+2022-02-26 15:37:33.769 AEDT [2920415] LOG:  listening on Unix socket "/localstorage/z5310901/pgsql/data/.s.PGSQL.5432"
+2022-02-26 15:37:33.775 AEDT [2920418] LOG:  database system was shut down at 2022-02-26 15:37:31 AEDT
+2022-02-26 15:37:33.782 AEDT [2920415] LOG:  database system is ready to accept connections
+2022-02-26 15:42:44.966 AEDT [2922995] ERROR:  syntax error at or near "select" at character 17
+2022-02-26 15:42:44.966 AEDT [2922995] STATEMENT:  select * from t
+	select * from t;
+2022-02-26 15:46:08.398 AEDT [2922995] ERROR:  syntax error at or near "1" at character 15
+2022-02-26 15:46:08.398 AEDT [2922995] STATEMENT:  insert into x(1,2,3);
+2022-02-26 15:51:07.414 AEDT [2922995] ERROR:  syntax error at or near "pg_dump" at character 1
+2022-02-26 15:51:07.414 AEDT [2922995] STATEMENT:  pg_dump exercise1 > exercise1.dump
+	;
+2022-02-26 17:18:28.098 AEDT [2920415] LOG:  received fast shutdown request
+2022-02-26 17:18:28.103 AEDT [2920415] LOG:  aborting any active transactions
+2022-02-26 17:18:28.109 AEDT [2920415] LOG:  background worker "logical replication launcher" (PID 2920424) exited with exit code 1
+2022-02-26 17:18:28.109 AEDT [2920419] LOG:  shutting down
+2022-02-26 17:18:28.121 AEDT [2920415] LOG:  database system is shut down
+2022-02-28 22:38:54.773 AEDT [1426737] LOG:  starting PostgreSQL 13.5 (Debian 13.5-0+deb11u1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
+2022-02-28 22:38:54.774 AEDT [1426737] LOG:  listening on Unix socket "/localstorage/z5310901/pgsql/data/.s.PGSQL.5432"
+2022-02-28 22:38:54.781 AEDT [1426738] LOG:  database system was shut down at 2022-02-26 17:18:28 AEDT
+2022-02-28 22:38:54.787 AEDT [1426737] LOG:  database system is ready to accept connections
+2022-03-01 02:06:30.115 AEDT [1426737] LOG:  received fast shutdown request
+2022-03-01 02:06:30.118 AEDT [1426737] LOG:  aborting any active transactions
+2022-03-01 02:06:30.123 AEDT [1426737] LOG:  background worker "logical replication launcher" (PID 1426744) exited with exit code 1
+2022-03-01 02:06:30.123 AEDT [1426739] LOG:  shutting down
+2022-03-01 02:06:30.135 AEDT [1426737] LOG:  database system is shut down
+2022-03-01 15:24:05.671 AEDT [2329631] LOG:  starting PostgreSQL 13.5 (Debian 13.5-0+deb11u1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
+2022-03-01 15:24:05.673 AEDT [2329631] LOG:  listening on Unix socket "/localstorage/z5310901/pgsql/data/.s.PGSQL.5432"
+2022-03-01 15:24:05.678 AEDT [2329632] LOG:  database system was shut down at 2022-03-01 02:06:30 AEDT
+2022-03-01 15:24:05.684 AEDT [2329631] LOG:  database system is ready to accept connections
+2022-03-01 15:30:44.120 AEDT [2335469] ERROR:  relation "beer" does not exist at character 15
+2022-03-01 15:30:44.120 AEDT [2335469] STATEMENT:  select * from beer where brewer = 'Toohey''s';
+2022-03-01 15:38:12.645 AEDT [2335469] ERROR:  syntax error at or near "'Beer'" at character 20
+2022-03-01 15:38:12.645 AEDT [2335469] STATEMENT:  SELECT
+	    name AS 'Beer',
+	    brewer AS 'Brewer'
+	FROM beers;
+2022-03-01 15:39:25.502 AEDT [2335469] ERROR:  syntax error at or near "'Beer'" at character 20
+2022-03-01 15:39:25.502 AEDT [2335469] STATEMENT:  SELECT
+	    name AS 'Beer',
+	    brewer AS 'Brewer'
+	FROM beers;
+2022-03-01 15:46:39.279 AEDT [2335469] ERROR:  relation "beers.b1" does not exist at character 15
+2022-03-01 15:46:39.279 AEDT [2335469] STATEMENT:  SELECT * FROM beers.b1;
+2022-03-01 16:21:02.350 AEDT [2329631] LOG:  received fast shutdown request
+2022-03-01 16:21:02.352 AEDT [2329631] LOG:  aborting any active transactions
+2022-03-01 16:21:02.355 AEDT [2329631] LOG:  background worker "logical replication launcher" (PID 2329638) exited with exit code 1
+2022-03-01 16:21:02.356 AEDT [2329633] LOG:  shutting down
+2022-03-01 16:21:02.369 AEDT [2329631] LOG:  database system is shut down
+2022-03-01 22:27:08.419 AEDT [2821068] LOG:  starting PostgreSQL 13.5 (Debian 13.5-0+deb11u1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
+2022-03-01 22:27:08.421 AEDT [2821068] LOG:  listening on Unix socket "/localstorage/z5310901/pgsql/data/.s.PGSQL.5432"
+2022-03-01 22:27:08.426 AEDT [2821070] LOG:  database system was shut down at 2022-03-01 16:21:02 AEDT
+2022-03-01 22:27:08.433 AEDT [2821068] LOG:  database system is ready to accept connections
+2022-03-01 22:31:07.875 AEDT [2824364] ERROR:  column "beers.brewer" must appear in the GROUP BY clause or be used in an aggregate function at character 8
+2022-03-01 22:31:07.875 AEDT [2824364] STATEMENT:  select brewer, count(*) FROM beers;
+2022-03-01 22:31:15.091 AEDT [2824364] ERROR:  column "brewers" does not exist at character 8
+2022-03-01 22:31:15.091 AEDT [2824364] HINT:  Perhaps you meant to reference the column "beers.brewer".
+2022-03-01 22:31:15.091 AEDT [2824364] STATEMENT:  select brewers, count(*) FROM beers;
+2022-03-01 22:32:41.260 AEDT [2824364] ERROR:  syntax error at or near "ASC" at character 25
+2022-03-01 22:32:41.260 AEDT [2824364] STATEMENT:  SELECT brewer, count(*) ASC FROM beers GROUP BY brewer;
