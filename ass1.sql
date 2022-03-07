@@ -12,7 +12,7 @@ as
 	join People p on (pe.student = p.id)
 	group by p.unswid, p.name
 	having count(distinct program) > 4
-	order by p.unswid asc
+	order by p.unswid asc;
 
 ;
 
@@ -31,7 +31,7 @@ as
 	where role = '3004'
 	group by p.unswid, p.name
 	order by course_cnt desc
-	limit 1
+	limit 1;
 
 ;
 
@@ -43,7 +43,7 @@ as
 	select
 		id
 	from students
-	where stype = 'intl'
+	where stype = 'intl';
 ;
 
 -- All students with course and subject id
@@ -68,7 +68,7 @@ as
 		subject
 	from intlstudents intl
 	join course_with_subject cws on (intl.id = cws.student)
-	where mark > 85
+	where mark > 85;
 ;
 
 -- Courses offered by the School of Law
@@ -86,7 +86,7 @@ create or replace view intl_law_info
 as
 	select *
 	from law_courses
-	join intl_info on (law_courses.id = intl_info.subject)
+	join intl_info on (law_courses.id = intl_info.subject);
 ;
 
 create or replace view Q3(unswid, name)
@@ -102,9 +102,21 @@ as
 ;
 
 -- Q4
+-- List of local students
+create or replace view localstudents(id)
+as
+	select
+		id
+	from students
+	where stype = 'local';
+;
+
 create or replace view Q4(unswid, name)
 as
 --... SQL statements, possibly using other views/functions defined by you ...
+
+-- START HERE
+
 ;
 
 
