@@ -149,6 +149,42 @@ as
 	where subject = 4876 or subject = 4899;
 ;
 
+create or replace view course_subj_term
+as
+	select
+		lci.student,
+		lci.course,
+		lci.subject,
+		c.term
+	from local_comp_info lci
+	join courses c on (lci.course = c.id);
+;
+
+WITH temp AS (
+select
+	t1.student,
+	t1.subject,
+	t1.term,
+	t2.term
+from
+	course_subj_term t1,
+	course_subj_term t2
+where t1.student = t2.student AND t1.subject <> t2.subject AND t1.term = t2.term
+order by student asc
+)
+
+-- Debug above
+
+
+
+
+
+
+
+
+
+
+
 create or replace view Q4(unswid, name)
 as
 --... SQL statements, possibly using other views/functions defined by you ...
