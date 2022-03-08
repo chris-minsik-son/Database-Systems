@@ -47,6 +47,7 @@ as
 ;
 
 -- All students with course and subject id
+-- VIEW below has course_enrolments(student, course, mark) and Courses(subject)
 create or replace view course_with_subject (student, course, mark, subject)
 as
 	select
@@ -101,6 +102,7 @@ as
 
 ;
 
+
 -- Q4
 -- List of local students
 create or replace view localstudents(id)
@@ -111,11 +113,47 @@ as
 	where stype = 'local';
 ;
 
+-- VIEW below has course_enrolments(student, course, mark) and Courses(subject)
+-- VIEW course_with_subject made previously
+
+create or replace view local_info
+as
+	select
+		student,
+		course,
+		mark,
+		subject
+	from localstudents localstd
+	join course_with_subject cws on (localstd.id = cws.student);
+;
+
+-- Find the subject codes for COMP9020 and COMP9331
+-- select id,code,name from subjects order by code;
+/*
+  id  |   code   |             name             
+------+----------+------------------------------
+ 4876 | COMP9020 | Foundations of Comp. Science
+------+----------+--------------------------------
+ 4899 | COMP9331 | Computer Networks&Applications
+*/
+
+-- VIEW course_with_subject has course_enrolments(student, course, mark) and Courses(subject)
+-- Note that Courses(subject) references Subjects(id)
+-- course_enrolments(course) references Courses(id)
+
+-- All local students taking COMP9020 and COMP9311
+create or replace view local_comp_info
+as
+	select *
+	from course_with_subject
+	where subject = 4876 or subject = 4899;
+;
+
 create or replace view Q4(unswid, name)
 as
 --... SQL statements, possibly using other views/functions defined by you ...
 
--- START HERE
+
 
 ;
 
