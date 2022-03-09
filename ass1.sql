@@ -226,6 +226,22 @@ as
 	where subject = 1884 and mark IS NOT NULL;
 ;
 
+-- List of students taking COMP3311 from 2009 to 2012
+create or replace view students_comp3311_2009_2012
+as
+	select *
+	from students_comp3311
+	where year >= 2009 and year <= 2012;
+;
+
+-- List of students taking COMP3311 from 2016 to 2019
+create or replace view students_comp3311_2016_2019
+as
+	select *
+	from students_comp3311
+	where year >= 2016 and year <= 2019;
+;
+
 create or replace view Q5a(term, min_fail_rate)
 as
 --... SQL statements, possibly using other views/functions defined by you ...
