@@ -189,35 +189,42 @@ as
 ;
 
 
--- Q5a
+-- Q5aq
 /*
   id  |   code   |       name       
 ------+----------+------------------
  1884 | COMP3311 | Database Systems
 */
 
+-- Updated course_with_subject view with term column
+create or replace view course_with_subject_final
+as
+	select
+		ce.student,
+		ce.course,
+		ce.mark,
+		c.subject,
+		c.term
+	from course_enrolments ce
+	join courses c on (ce.course = c.id);
+;
+
 -- List of all students taking COMP3311 with non-null mark values
 create or replace view students_comp3311
 as
-	select *
-	from course_with_subject
+	select
+		cwst.student,
+		cwst.course,
+		cwst.mark,
+		cwst.subject,
+		cwst.term,
+		t.id,
+		t.year,
+		t.name
+	from course_with_subject_final cwst
+	join terms t on (cwst.term = t.id)
 	where subject = 1884 and mark IS NOT NULL;
 ;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 create or replace view Q5a(term, min_fail_rate)
 as
