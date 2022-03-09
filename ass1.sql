@@ -190,6 +190,35 @@ as
 
 
 -- Q5a
+/*
+  id  |   code   |       name       
+------+----------+------------------
+ 1884 | COMP3311 | Database Systems
+*/
+
+-- List of all students taking COMP3311 with non-null mark values
+create or replace view students_comp3311
+as
+	select *
+	from course_with_subject
+	where subject = 1884 and mark IS NOT NULL;
+;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 create or replace view Q5a(term, min_fail_rate)
 as
 --... SQL statements, possibly using other views/functions defined by you ...
