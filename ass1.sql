@@ -242,9 +242,37 @@ as
 	where year >= 2016 and year <= 2019;
 ;
 
+-- The following 3 functions are for COMP3311 2009 to 2012
+create or replace view measure_table_1_fail as (
+	select
+		name,
+		count(*) as fail_count
+	from students_comp3311_2009_2012
+	where mark < 50
+	group by name
+);
+
+create or replace view measure_table_1_total as (
+	select
+		name,
+		count(*) as total_count
+	from students_comp3311_2009_2012
+	group by name
+)
+
+-- FIX ERROR, Solution only has 2010 and column name is unchangeable
+
 create or replace view Q5a(term, min_fail_rate)
 as
 --... SQL statements, possibly using other views/functions defined by you ...
+
+	select
+		t.name,
+--		f.fail_count,
+--		t.total_count,
+		round(f.fail_count::numeric / t.total_count, 4) as fail_rate
+	from measure_table_1_total t
+	join measure_table_1_fail f on (t.name = f.name);
 ;
 
 
