@@ -260,7 +260,6 @@ create or replace view measure_table_1_total as (
 	group by name
 )
 
--- FIX ERROR, Solution only has 2010 and column name is unchangeable
 create or replace view Q5a(term, min_fail_rate)
 as
 --... SQL statements, possibly using other views/functions defined by you ...
@@ -271,12 +270,14 @@ as
 --		t.total_count,
 		round(f.fail_count::numeric / t.total_count, 4) as fail_rate
 	from measure_table_1_total t
-	join measure_table_1_fail f on (t.name = f.name);
+	join measure_table_1_fail f on (t.name = f.name)
+	order by fail_rate
+	limit 1;
 ;
 
 
 -- The following 2 functions are for COMP3311 2016 to 2019
--- VIEWS have not been created yet: need to use for mymy2 database
+-- Use the mymy2 database
 create or replace view measure_table_2_fail as (
 	select
 		name,
@@ -292,14 +293,23 @@ create or replace view measure_table_2_total as (
 		count(*) as total_count
 	from students_comp3311_2016_2019
 	group by name
-)
+);
 
 -- Q5b
 create or replace view Q5b(term, min_fail_rate)
 as
 --... SQL statements, possibly using other views/functions defined by you ...
-;
 
+	select
+		t.name,
+--		f.fail_count,
+--		t.total_count,
+		round(f.fail_count::numeric / t.total_count, 4) as fail_rate
+	from measure_table_2_total t
+	join measure_table_2_fail f on (t.name = f.name)
+	order by fail_rate
+	limit 1;
+;
 
 -- Q6
 create or replace function 
