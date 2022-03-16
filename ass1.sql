@@ -350,12 +350,54 @@ as $$
 $$ language sql;
 
 
+create or replace view termtranscipt_table_1 as (
+	select
+		p.unswid,
+		ce.course,
+		ce.mark,
+		CAST (termName(t.id) AS char(4)),
+		s.uoc
+	from course_enrolments ce
+	join courses c on (ce.course = c.id)
+	join students st on (ce.student = st.id)
+	join people p on (st.id = p.id)
+	join terms t on (c.term = t.id)
+	join subjects s on (c.subject = s.id)
+);
+
 -- Q8
 create or replace function
 	Q8(zid integer) returns setof TermTranscriptRecord
 as $$
 --... SQL statements, possibly using other views/functions defined by you ...
 $$ language plpgsql;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 -- Q9
