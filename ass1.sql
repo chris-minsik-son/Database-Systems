@@ -365,39 +365,78 @@ create or replace view termtranscipt_table_1 as (
 	join subjects s on (c.subject = s.id)
 );
 
+
 -- Q8
+create type TermTranscriptRecord as (
+        term  		char(4), -- term code (e.g. 98s1)
+        termwam  	integer, -- numeric term WAM acheived
+        termuocpassed   integer  -- units of credit passed this term
+);
+
 create or replace function
 	Q8(zid integer) returns setof TermTranscriptRecord
 as $$
 --... SQL statements, possibly using other views/functions defined by you ...
+
+declare
+	tuple record;
+	info termtranscipt_table_1;
+	final TermTranscriptRecord;
+
+	previous_term char;
+	
+	_termwam integer := 0;
+	mu_sum integer := 0;
+
+	_termuocpassed integer := 0;
+	uoc_sum integer := 0;
+begin
+	-- Loop through each row in the table
+	for tuple in
+		select *
+		from termtranscipt_table_1
+		where unswid = $1
+		order by termname asc
+	loop
+		-- If student id is invalid
+		-- if (not found) then
+		-- 	return NULL;
+		-- end if;
+		
+		-- For the first case since previous_term is NULL
+		if (previous_term = NULL) then
+			previous_term := info.term;
+		end if;
+
+		-- Update term wam
+		if(info.term = previous_term and info.mark <> NULL) then
+			mu_sum := mu_sum + info.mark * info.uoc;
+			uoc_sum := uoc_sum + info.uoc;
+			-- Update termuocpassed
+			if(info.mark >= 50) then
+				_termuocpassed := _termuocpassed + info.uoc;
+			end if;
+		
+		-- If we have a new term, store data and continue
+		else
+			final.term = previous_term;
+			final.termwam = mu_sum / uoc_sum;
+			final.termuocpassed = _termuocpassed;
+			return next final;
+
+			-- Re-initialise variables
+			previous_term = info.term;
+			mu_sum = 0;
+			uoc_sum = 0;
+			_termuocpassed = 0;
+
+		end if;
+
+	end loop;
+
+end
+
 $$ language plpgsql;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 -- Q9
