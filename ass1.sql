@@ -478,7 +478,7 @@ begin
 			_termuocpassed = 0;
 
 			-- Repeat update on termwam and termuocpassed
-			if(tuple.termname = previous_term) then
+			if(tuple.termname = previous_term and tuple.mark is not null) then
 				mu_sum := mu_sum + tuple.mark * tuple.uoc;
 				overall_mu := overall_mu + tuple.mark * tuple.uoc;
 			
@@ -505,7 +505,7 @@ begin
 					overall_uoc := overall_uoc + tuple.uoc;
 				end if;
 
-			elsif(tuple.mark is NULL) then
+			elsif(tuple.termname = previous_term and tuple.mark is NULL) then
 				-- Update termuocpassed
 				if(tuple.grade = 'SY' or 
 					tuple.grade = 'PT' or
