@@ -391,6 +391,7 @@ declare
 
 	_termuocpassed integer := 0;
 	uoc_sum integer := 0;
+	wam_uoc integer := 0;
 	overall_uoc integer := 0;
 begin
 	-- Loop through each row in the table
@@ -401,9 +402,10 @@ begin
 		order by termname asc
 	loop
 		-- If student id is invalid
-		-- if (not found) then
-		--  	exit;
-		-- end if;
+		if ((select count(*) from termtranscipt_table_1 where unswid = $1) = 0) then
+			exit_now := 1;
+			break;
+		end if;
 		
 		-- For the first case since previous_term is NULL
 		if (previous_term = '') then
@@ -416,7 +418,8 @@ begin
 			overall_mu := overall_mu + tuple.mark * tuple.uoc;
 			
 			uoc_sum := uoc_sum + tuple.uoc;
-			
+			wam_uoc := wam_uoc + tuple.uoc;
+
 			-- Update termuocpassed
 			if(tuple.grade = 'SY' or 
 				tuple.grade = 'PT' or
@@ -467,8 +470,18 @@ begin
 		-- If we have a new term, store data and continue
 		else
 			final.term = previous_term;
-			final.termwam = ROUND(mu_sum::NUMERIC / uoc_sum::NUMERIC);
+			
+			if(mu_sum = 0 or uoc_sum = 0) then
+				final.termwam = NULL;
+			else
+				final.termwam = ROUND(mu_sum::NUMERIC / uoc_sum::NUMERIC);
+			end if;
+			
 			final.termuocpassed = _termuocpassed;
+			if(final.termuocpassed = 0) then
+				final.termuocpassed = NULL;
+			end if;
+
 			return next final;
 
 			-- Re-initialise variables
@@ -483,6 +496,7 @@ begin
 				overall_mu := overall_mu + tuple.mark * tuple.uoc;
 			
 				uoc_sum := uoc_sum + tuple.uoc;
+				wam_uoc := wam_uoc + tuple.uoc;
 
 				-- Update termuocpassed
 				if(tuple.grade = 'SY' or 
@@ -534,18 +548,42 @@ begin
 		end if;
 
 	end loop;
-		
-		-- Last row of table being updated
-		final.term = previous_term;
-		final.termwam = ROUND(mu_sum::NUMERIC / uoc_sum::NUMERIC);
-		final.termuocpassed = _termuocpassed;
-		return next final;
+		raise notice 'initiallyyy';
+		if(exit_now = 1) then
+			raise notice 'here 111';
+			return;
+		else
+			raise notice 'here 222';
+			-- Last row of table being updated
+			final.term = previous_term;
+			
+			if(mu_sum = 0 and uoc_sum = 0) then
+				final.termwam = NULL;
+			else
+				final.termwam = ROUND(mu_sum::NUMERIC / uoc_sum::NUMERIC);
+			end if;
+			
+			final.termuocpassed = _termuocpassed;
+			if(final.termuocpassed = 0) then
+				final.termuocpassed = NULL;
+			end if;
 
-		-- Add final row for OVAL
-		final.term = 'OVAL';
-		final.termwam = ROUND(overall_mu::NUMERIC / overall_uoc::NUMERIC);
-		final.termuocpassed = overall_uoc;
-		return next final;
+			return next final;
+
+			-- Add final row for OVAL
+			final.term = 'OVAL';
+
+			if(wam_uoc = 0) then
+				final.termwam = NULL;
+			else
+				final.termwam = ROUND(overall_mu::NUMERIC / wam_uoc::NUMERIC);
+			end if;
+
+			final.termuocpassed = overall_uoc;
+			return next final;
+
+		end if;
+		
 end
 
 $$ language plpgsql;
