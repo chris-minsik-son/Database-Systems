@@ -606,20 +606,6 @@ $$ language plpgsql;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 -- Q9
 create or replace function 
 	Q9(gid integer) returns setof AcObjRecord
