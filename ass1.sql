@@ -355,6 +355,7 @@ create or replace view termtranscipt_table_1 as (
 		p.unswid,
 		ce.course,
 		ce.mark,
+		ce.grade,
 		CAST (termName(t.id) AS char(4)),
 		s.uoc
 	from course_enrolments ce
@@ -380,16 +381,17 @@ as $$
 
 declare
 	tuple record;
-	info termtranscipt_table_1;
 	final TermTranscriptRecord;
 
-	previous_term char;
+	previous_term char(4) := '';
 	
 	_termwam integer := 0;
 	mu_sum integer := 0;
+	overall_mu integer := 0;
 
 	_termuocpassed integer := 0;
 	uoc_sum integer := 0;
+	overall_uoc integer := 0;
 begin
 	-- Loop through each row in the table
 	for tuple in
@@ -400,43 +402,184 @@ begin
 	loop
 		-- If student id is invalid
 		-- if (not found) then
-		-- 	return NULL;
+		--  	exit;
 		-- end if;
 		
 		-- For the first case since previous_term is NULL
-		if (previous_term = NULL) then
-			previous_term := info.term;
+		if (previous_term = '') then
+			previous_term := tuple.termname;
 		end if;
-
-		-- Update term wam
-		if(info.term = previous_term and info.mark <> NULL) then
-			mu_sum := mu_sum + info.mark * info.uoc;
-			uoc_sum := uoc_sum + info.uoc;
-			-- Update termuocpassed
-			if(info.mark >= 50) then
-				_termuocpassed := _termuocpassed + info.uoc;
-			end if;
 		
+		-- Update term wam
+		if(tuple.termname = previous_term and tuple.mark is not null) then
+			mu_sum := mu_sum + tuple.mark * tuple.uoc;
+			overall_mu := overall_mu + tuple.mark * tuple.uoc;
+			
+			uoc_sum := uoc_sum + tuple.uoc;
+			
+			-- Update termuocpassed
+			if(tuple.grade = 'SY' or 
+				tuple.grade = 'PT' or
+				tuple.grade = 'PC' or
+				tuple.grade = 'PS' or
+				tuple.grade = 'CR' or
+				tuple.grade = 'DN' or
+				tuple.grade = 'HD' or
+				tuple.grade = 'A' or
+				tuple.grade = 'B' or
+				tuple.grade = 'C' or
+				tuple.grade = 'XE' or
+				tuple.grade = 'T' or
+				tuple.grade = 'PE' or
+				tuple.grade = 'RC' or
+				tuple.grade = 'RS'
+			) then
+				_termuocpassed := _termuocpassed + tuple.uoc;
+				overall_uoc := overall_uoc + tuple.uoc;
+			end if;
+
+		-- If course mark is NULL then continue to next iteration
+		elsif(tuple.termname = previous_term and tuple.mark is null) then
+			
+			-- Update termuocpassed
+			if(tuple.grade = 'SY' or 
+				tuple.grade = 'PT' or
+				tuple.grade = 'PC' or
+				tuple.grade = 'PS' or
+				tuple.grade = 'CR' or
+				tuple.grade = 'DN' or
+				tuple.grade = 'HD' or
+				tuple.grade = 'A' or
+				tuple.grade = 'B' or
+				tuple.grade = 'C' or
+				tuple.grade = 'XE' or
+				tuple.grade = 'T' or
+				tuple.grade = 'PE' or
+				tuple.grade = 'RC' or
+				tuple.grade = 'RS'
+			) then
+				_termuocpassed := _termuocpassed + tuple.uoc;
+				overall_uoc := overall_uoc + tuple.uoc;
+			end if;
+
+			continue;
+
 		-- If we have a new term, store data and continue
 		else
 			final.term = previous_term;
-			final.termwam = mu_sum / uoc_sum;
+			final.termwam = ROUND(mu_sum::NUMERIC / uoc_sum::NUMERIC);
 			final.termuocpassed = _termuocpassed;
 			return next final;
 
 			-- Re-initialise variables
-			previous_term = info.term;
+			previous_term = tuple.termname;
 			mu_sum = 0;
 			uoc_sum = 0;
 			_termuocpassed = 0;
 
+			-- Repeat update on termwam and termuocpassed
+			if(tuple.termname = previous_term) then
+				mu_sum := mu_sum + tuple.mark * tuple.uoc;
+				overall_mu := overall_mu + tuple.mark * tuple.uoc;
+			
+				uoc_sum := uoc_sum + tuple.uoc;
+
+				-- Update termuocpassed
+				if(tuple.grade = 'SY' or 
+					tuple.grade = 'PT' or
+					tuple.grade = 'PC' or
+					tuple.grade = 'PS' or
+					tuple.grade = 'CR' or
+					tuple.grade = 'DN' or
+					tuple.grade = 'HD' or
+					tuple.grade = 'A' or
+					tuple.grade = 'B' or
+					tuple.grade = 'C' or
+					tuple.grade = 'XE' or
+					tuple.grade = 'T' or
+					tuple.grade = 'PE' or
+					tuple.grade = 'RC' or
+					tuple.grade = 'RS'
+				) then
+					_termuocpassed := _termuocpassed + tuple.uoc;
+					overall_uoc := overall_uoc + tuple.uoc;
+				end if;
+
+			elsif(tuple.mark is NULL) then
+				-- Update termuocpassed
+				if(tuple.grade = 'SY' or 
+					tuple.grade = 'PT' or
+					tuple.grade = 'PC' or
+					tuple.grade = 'PS' or
+					tuple.grade = 'CR' or
+					tuple.grade = 'DN' or
+					tuple.grade = 'HD' or
+					tuple.grade = 'A' or
+					tuple.grade = 'B' or
+					tuple.grade = 'C' or
+					tuple.grade = 'XE' or
+					tuple.grade = 'T' or
+					tuple.grade = 'PE' or
+					tuple.grade = 'RC' or
+					tuple.grade = 'RS'
+				) then
+					_termuocpassed := _termuocpassed + tuple.uoc;
+					overall_uoc := overall_uoc + tuple.uoc;
+				end if;
+
+				continue;
+
+			end if;
+
 		end if;
 
 	end loop;
+		
+		-- Last row of table being updated
+		final.term = previous_term;
+		final.termwam = ROUND(mu_sum::NUMERIC / uoc_sum::NUMERIC);
+		final.termuocpassed = _termuocpassed;
+		return next final;
 
+		-- Add final row for OVAL
+		final.term = 'OVAL';
+		final.termwam = ROUND(overall_mu::NUMERIC / overall_uoc::NUMERIC);
+		final.termuocpassed = overall_uoc;
+		return next final;
 end
 
 $$ language plpgsql;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 -- Q9
