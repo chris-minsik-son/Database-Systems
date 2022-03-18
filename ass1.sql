@@ -258,7 +258,7 @@ create or replace view measure_table_1_total as (
 		count(*) as total_count
 	from students_comp3311_2009_2012
 	group by name
-)
+);
 
 create or replace view Q5a(term, min_fail_rate)
 as
@@ -401,12 +401,6 @@ begin
 		where unswid = $1
 		order by termname asc
 	loop
-		-- If student id is invalid
-		if ((select count(*) from termtranscipt_table_1 where unswid = $1) = 0) then
-			exit_now := 1;
-			break;
-		end if;
-		
 		-- For the first case since previous_term is NULL
 		if (previous_term = '') then
 			previous_term := tuple.termname;
@@ -548,76 +542,55 @@ begin
 		end if;
 
 	end loop;
-		raise notice 'initiallyyy';
-		if(exit_now = 1) then
-			raise notice 'here 111';
+		-- If student zid is invalid, return empty table
+		if(not found) then
 			return;
-		else
-			raise notice 'here 222';
-			-- Last row of table being updated
-			final.term = previous_term;
-			
-			if(mu_sum = 0 and uoc_sum = 0) then
-				final.termwam = NULL;
-			else
-				final.termwam = ROUND(mu_sum::NUMERIC / uoc_sum::NUMERIC);
-			end if;
-			
-			final.termuocpassed = _termuocpassed;
-			if(final.termuocpassed = 0) then
-				final.termuocpassed = NULL;
-			end if;
-
-			return next final;
-
-			-- Add final row for OVAL
-			final.term = 'OVAL';
-
-			if(wam_uoc = 0) then
-				final.termwam = NULL;
-			else
-				final.termwam = ROUND(overall_mu::NUMERIC / wam_uoc::NUMERIC);
-			end if;
-
-			final.termuocpassed = overall_uoc;
-			return next final;
-
 		end if;
+
+		-- Last row of table being updated
+		final.term = previous_term;
+		
+		if(mu_sum = 0 and uoc_sum = 0) then
+			final.termwam = NULL;
+		else
+			final.termwam = ROUND(mu_sum::NUMERIC / uoc_sum::NUMERIC);
+		end if;
+		
+		final.termuocpassed = _termuocpassed;
+		if(final.termuocpassed = 0) then
+			final.termuocpassed = NULL;
+		end if;
+
+		return next final;
+
+		-- Add final row for OVAL
+		final.term = 'OVAL';
+
+		if(wam_uoc = 0) then
+			final.termwam = NULL;
+		else
+			final.termwam = ROUND(overall_mu::NUMERIC / wam_uoc::NUMERIC);
+		end if;
+
+		final.termuocpassed = overall_uoc;
+		return next final;
 		
 end
 
 $$ language plpgsql;
 
+-- -- Q9
+-- create or replace function 
+-- 	Q9(gid integer) returns setof AcObjRecord
+-- as $$
+-- --... SQL statements, possibly using other views/functions defined by you ...
+-- $$ language plpgsql;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--- Q9
-create or replace function 
-	Q9(gid integer) returns setof AcObjRecord
-as $$
---... SQL statements, possibly using other views/functions defined by you ...
-$$ language plpgsql;
-
-
--- Q10
-create or replace function
-	Q10(code text) returns setof text
-as $$
---... SQL statements, possibly using other views/functions defined by you ...
-$$ language plpgsql;
+-- -- Q10
+-- create or replace function
+-- 	Q10(code text) returns setof text
+-- as $$
+-- --... SQL statements, possibly using other views/functions defined by you ...
+-- $$ language plpgsql;
 
