@@ -9,7 +9,6 @@ create or replace function
 	Q8(zid integer) returns setof TermTranscriptRecord
 as $$
 --... SQL statements, possibly using other views/functions defined by you ...
-
 declare
 	tuple record;
 	final TermTranscriptRecord;
