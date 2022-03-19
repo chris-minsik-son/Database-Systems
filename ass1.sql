@@ -368,12 +368,6 @@ create or replace view termtranscipt_table_1 as (
 
 
 -- Q8
-create type TermTranscriptRecord as (
-        term  		char(4), -- term code (e.g. 98s1)
-        termwam  	integer, -- numeric term WAM acheived
-        termuocpassed   integer  -- units of credit passed this term
-);
-
 create or replace function
 	Q8(zid integer) returns setof TermTranscriptRecord
 as $$
@@ -580,109 +574,108 @@ end
 $$ language plpgsql;
 
 
--- -- Q9
--- create or replace view subject_group as (
--- 	select
--- 		aog.id,
--- 		aog.name,
--- 		aog.gtype,
--- 		aog.gdefby,
--- 		aog.negated,
--- 		aog.parent,
--- 		aog.definition,
--- 		sub.subject,
--- 		sub.ao_group
--- 	from acad_object_groups aog
--- 	join subject_group_members sub on (aog.id = sub.ao_group)
--- );
+-- Q9
+create or replace view subject_group as (
+	select
+		aog.id,
+		aog.name,
+		aog.gtype,
+		aog.gdefby,
+		aog.negated,
+		aog.parent,
+		aog.definition,
+		sub.subject,
+		sub.ao_group
+	from acad_object_groups aog
+	join subject_group_members sub on (aog.id = sub.ao_group)
+);
 
--- create or replace view stream_group as (
--- 	select
--- 		aog.id,
--- 		aog.name,
--- 		aog.gtype,
--- 		aog.gdefby,
--- 		aog.negated,
--- 		aog.parent,
--- 		aog.definition,
--- 		stm.stream,
--- 		stm.ao_group
--- 	from acad_object_groups aog
--- 	join stream_group_members stm on (aog.id = stm.ao_group)
--- );
+create or replace view stream_group as (
+	select
+		aog.id,
+		aog.name,
+		aog.gtype,
+		aog.gdefby,
+		aog.negated,
+		aog.parent,
+		aog.definition,
+		stm.stream,
+		stm.ao_group
+	from acad_object_groups aog
+	join stream_group_members stm on (aog.id = stm.ao_group)
+);
 
--- create or replace view program_group as (
--- 	select
--- 		aog.id,
--- 		aog.name,
--- 		aog.gtype,
--- 		aog.gdefby,
--- 		aog.negated,
--- 		aog.parent,
--- 		aog.definition,
--- 		pro.program,
--- 		pro.ao_group
--- 	from acad_object_groups aog
--- 	join program_group_members pro on (aog.id = pro.ao_group)
--- );
-
-
--- create type _objtype as (
---         objtype  		text
--- );
--- -- Function to determine whether academic object type is subject, stream, program
--- create or replace function
--- 	find_objtype(gid integer) returns _objtype
--- as $$
--- declare
--- 	final _objtype;
--- 	objtype text := '';
--- begin
--- 	if((select distinct gtype from subject_group where id = gid) = 'subject') then
--- 		final.objtype = 'subject';
--- 		return final;
--- 	elsif((select distinct gtype from stream_group where id = gid) = 'stream') then
--- 		final.objtype = 'stream';
--- 		return final;
--- 	elsif((select distinct gtype from program_group where id = gid) = 'program') then
--- 		final.objtype = 'program';
--- 		return final;
--- 	else
--- 		final.objtype = 'invalid';
--- 		return final;
--- 	end if;
--- end
--- $$ language plpgsql;
-
--- Examples to test function above
--- 1004 (subject), 1002 (stream), 20804 (program)
-
--- create or replace function 
--- 	Q9(gid integer) returns setof AcObjRecord
--- as $$
--- --... SQL statements, possibly using other views/functions defined by you ...
--- declare
--- 	tuple record;
--- 	final TermTranscriptRecord;
--- begin
--- 	if((select * from find_objtype(gid)) = 'subject') then
--- 		raise notice 'Object is a subject';
--- 	elsif((select * from find_objtype(gid)) = 'stream') then
--- 		raise notice 'Object is a stream';
--- 	elsif((select * from find_objtype(gid)) = 'program') then
--- 		raise notice 'Object is a program';
--- 	else
--- 		raise notice 'Object is invalid';
--- 	end if;
-
--- end
--- $$ language plpgsql;
+create or replace view program_group as (
+	select
+		aog.id,
+		aog.name,
+		aog.gtype,
+		aog.gdefby,
+		aog.negated,
+		aog.parent,
+		aog.definition,
+		pro.program,
+		pro.ao_group
+	from acad_object_groups aog
+	join program_group_members pro on (aog.id = pro.ao_group)
+);
 
 
--- -- Q10
--- create or replace function
--- 	Q10(code text) returns setof text
--- as $$
--- --... SQL statements, possibly using other views/functions defined by you ...
--- $$ language plpgsql;
+create type _objtype as (
+        objtype  		text
+);
+-- Function to determine whether academic object type is subject, stream, program
+create or replace function
+	find_objtype(gid integer) returns _objtype
+as $$
+declare
+	final _objtype;
+	objtype text := '';
+begin
+	if((select distinct gtype from subject_group where id = gid) = 'subject') then
+		final.objtype = 'subject';
+		return final;
+	elsif((select distinct gtype from stream_group where id = gid) = 'stream') then
+		final.objtype = 'stream';
+		return final;
+	elsif((select distinct gtype from program_group where id = gid) = 'program') then
+		final.objtype = 'program';
+		return final;
+	else
+		final.objtype = 'invalid';
+		return final;
+	end if;
+end
+$$ language plpgsql;
 
+Examples to test function above
+1004 (subject), 1002 (stream), 20804 (program)
+
+create or replace function 
+	Q9(gid integer) returns setof AcObjRecord
+as $$
+--... SQL statements, possibly using other views/functions defined by you ...
+declare
+	tuple record;
+	final TermTranscriptRecord;
+begin
+	if((select * from find_objtype(gid)) = 'subject') then
+		raise notice 'Object is a subject';
+	elsif((select * from find_objtype(gid)) = 'stream') then
+		raise notice 'Object is a stream';
+	elsif((select * from find_objtype(gid)) = 'program') then
+		raise notice 'Object is a program';
+	else
+		raise notice 'Object is invalid';
+	end if;
+
+end
+$$ language plpgsql;
+
+
+-- Q10
+create or replace function
+	Q10(code text) returns setof text
+as $$
+--... SQL statements, possibly using other views/functions defined by you ...
+$$ language plpgsql;
