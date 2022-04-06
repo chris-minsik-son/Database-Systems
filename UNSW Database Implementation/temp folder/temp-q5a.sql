@@ -51,7 +51,7 @@ create or replace view measure_table_1_total as (
 		count(*) as total_count
 	from students_comp3311_2009_2012
 	group by name
-)
+);
 
 create or replace view Q5a(term, min_fail_rate)
 as
