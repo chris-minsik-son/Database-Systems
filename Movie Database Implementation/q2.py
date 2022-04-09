@@ -31,7 +31,7 @@ SELECT
 	start_year
 FROM Movies
 WHERE title ~* '%s'
-ORDER BY title;
+ORDER BY rating DESC, start_year ASC;
 
 """
 
