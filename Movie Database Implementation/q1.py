@@ -33,7 +33,7 @@ FROM crew_roles
 JOIN Names on (crew_roles.name_id = Names.id)
 WHERE crew_roles.role = 'director'
 GROUP BY Names.name
-ORDER BY count DESC;
+ORDER BY count DESC, name;
 
 """
 
@@ -45,7 +45,7 @@ try:
 
 	# ... add your code here ...
 
-	if not re.match("^[1-9]+$", N):
+	if not re.match("^[1-9][0-9]*$", N):
 		print(usage)
 		sys.exit(1)
 
