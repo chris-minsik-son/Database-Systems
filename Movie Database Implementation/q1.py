@@ -2,6 +2,7 @@
 
 import sys
 import psycopg2
+import re
 
 # define any local helper functions here
 
@@ -14,8 +15,12 @@ db = None
 
 argc = len(sys.argv)
 
-N = sys.argv[1]
-N = int(N)
+if len(sys.argv) == 1:
+	N = 10
+	N = str(N)
+else:
+	N = sys.argv[1]
+
 
 # manipulate database
 
@@ -40,7 +45,7 @@ try:
 
 	# ... add your code here ...
 
-	if type(N) != int or int(N) <0:
+	if not re.match("^[1-9]+$", N):
 		print(usage)
 		sys.exit(1)
 
@@ -49,7 +54,7 @@ try:
 	for record in directors:
 		if count == int(N):
 			break
-		print(record[1], record[0], count)
+		print(record[1], record[0])
 		count = count + 1
 
 
