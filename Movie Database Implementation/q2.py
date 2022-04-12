@@ -19,29 +19,43 @@ if len(sys.argv) == 1 or len(sys.argv) > 2:
 	print(usage)
 	sys.exit(1)
 else:
-	argument = sys.argv[1]
+	movietitle = sys.argv[1]
 
 # manipulate database
 
-query = """
+moviequery = """
 
 SELECT
 	rating,
 	title,
 	start_year
 FROM Movies
-WHERE title ~* '%s'
+WHERE title ~* %s
 ORDER BY rating DESC, start_year ASC;
 
 """
 
+aliasquery = """
+
+
+
+"""
+
+# Ocean's Eleven
+
 try:
 	db = psycopg2.connect("dbname=imdb")
 	cur = db.cursor()
-	cur.execute(query, argument)
+	print(movietitle)
+	cur.execute(moviequery, [movietitle])
 	movielist = cur.fetchall()
 
 	# ... add your code here ...
+	if len(movielist) == 0:
+		print("No movie matching " + "'" + movietitle + "'")
+	elif len(movielist) == 1:
+
+
 
 except psycopg2.Error as err:
 	print("DB error: ", err)
