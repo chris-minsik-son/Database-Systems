@@ -37,7 +37,15 @@ ORDER BY rating DESC, start_year ASC;
 
 aliasquery = """
 
-
+SELECT
+	Movies.title,
+	Aliases.local_title,
+	Movies.start_year,
+	Aliases.region,
+	Aliases.language
+FROM Movies
+JOIN Aliases on (Movies.id = Aliases.movie_id)
+WHERE Movies.title ~* %s
 
 """
 
