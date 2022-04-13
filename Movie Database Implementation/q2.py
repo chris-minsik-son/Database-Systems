@@ -77,7 +77,7 @@ try:
 		for record in movielist:
 			print(record[0], record[1], "("+ str(record[2])+ ")")
 		
-			
+	# Update Aliases section, for when there are no alternative releases		
 
 
 
