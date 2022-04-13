@@ -70,9 +70,11 @@ try:
 		else:
 			print(movietitle + " (" + str(movielist[0][2]) + ")" + " was also released as")
 			for record in aliaslist:
-				if record[4] is None:
+				if record[3] is None and record[4] is None and record[5] is not None:
+					print("'" + record[1] + "' " + "(" + str(record[5]) + ")")
+				if record[3] is not None and record[4] is None:
 					print("'" + record[1] + "' " + "(region: " + str(record[3]).rstrip() + ")")
-				else:
+				elif record[3] is not None and record[4] is not None:
 					print("'" + record[1] + "' " + "(region: " + str(record[3]).rstrip() + ", language: " + str(record[4]).rstrip() + ")")
 		
 	else:
@@ -81,10 +83,6 @@ try:
 		for record in movielist:
 			print(record[0], record[1], "("+ str(record[2])+ ")")
 		
-	# Update Aliases section, for when there are no alternative releases		
-
-
-
 except psycopg2.Error as err:
 	print("DB error: ", err)
 finally:
