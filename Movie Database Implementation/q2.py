@@ -32,7 +32,7 @@ SELECT
 	start_year
 FROM Movies
 WHERE title ~* %s
-ORDER BY rating DESC, start_year ASC;
+ORDER BY rating DESC, start_year, title;
 
 """
 
@@ -43,15 +43,14 @@ SELECT
 	Aliases.local_title,
 	Movies.start_year,
 	Aliases.region,
-	Aliases.language
+	Aliases.language,
+	Aliases.extra_info
 FROM Movies
 JOIN Aliases on (Movies.id = Aliases.movie_id)
 WHERE Movies.title ~* %s
 ORDER BY Aliases.ordering;
 
 """
-
-# Ocean's Eleven
 
 try:
 	db = psycopg2.connect("dbname=imdb")
@@ -65,12 +64,17 @@ try:
 	elif len(movielist) == 1:
 		cur.execute(aliasquery, [movietitle])
 		aliaslist = cur.fetchall()
-		print(movietitle + " (" + str(movielist[0][2]) + ")" + " was also released as")
-		for record in aliaslist:
-			if record[4] is None:
-				print("'" + record[1] + "' " + "(region: " + str(record[3]).rstrip() + ")")
-			else:
-				print("'" + record[1] + "' " + "(region: " + str(record[3]).rstrip() + ", language: " + str(record[4]).rstrip() + ")")
+		
+		if len(aliaslist) == 0:
+			print(movietitle + " (" + str(movielist[0][2]) + ")" + " has no alternative releases")
+		else:
+			print(movietitle + " (" + str(movielist[0][2]) + ")" + " was also released as")
+			for record in aliaslist:
+				if record[4] is None:
+					print("'" + record[1] + "' " + "(region: " + str(record[3]).rstrip() + ")")
+				else:
+					print("'" + record[1] + "' " + "(region: " + str(record[3]).rstrip() + ", language: " + str(record[4]).rstrip() + ")")
+		
 	else:
 		print("Movies matching" + " '" + movietitle + "'")
 		print("===============")
