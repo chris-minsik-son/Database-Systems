@@ -63,6 +63,32 @@ ORDER BY name;
 
 """
 
+personalrating = """
+
+SELECT
+	ROUND(AVG(rating)::NUMERIC, 1)
+FROM Principals
+JOIN Movies on (Principals.movie_id = Movies.id)
+JOIN Names on (Principals.name_id = Names.id)
+WHERE Names.name ~* %s;
+
+"""
+
+topgenrelist = """
+
+SELECT
+	Movie_genres.genre,
+	COUNT(*) AS moviecount
+FROM Principals
+JOIN Movies on (Principals.movie_id = Movies.id)
+JOIN Names on (Principals.name_id = Names.id)
+JOIN Movie_genres on (Movies.id = Movie_genres.movie_id)
+WHERE Names.name ~* 'Spike Lee'
+GROUP BY Movie_genres.genre
+ORDER BY moviecount DESC, Movie_genres.genre
+LIMIT 3;
+
+"""
 
 try:
 	db = psycopg2.connect("dbname=imdb")
@@ -88,8 +114,17 @@ try:
 
 	# Construct profile for the single person matched:
 	if argcount == 1 and len(namelist) == 1:
-		# TO DO
-		print("TO DO")
+		if namelist[0][1] is None:
+			print("Filmography for " + str(namelist[0][0]) + " (???)")
+			print("===============")
+
+		elif namelist[0][2] is None:
+			print("Filmography for " + str(namelist[0][0]) + " (" + str(namelist[0][1]) + "-)")
+			print("===============")
+
+		else:
+			print("Filmography for " + str(namelist[0][0]) + " (" + str(namelist[0][1]) + "-" + str(namelist[0][2]) + ")")
+			print("===============")
 
 	# Print list of all matching names with birth year and death year in brackets:
 	elif argcount == 1 and len(namelist) > 1:
