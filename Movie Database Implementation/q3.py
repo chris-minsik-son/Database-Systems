@@ -20,11 +20,13 @@ if len(sys.argv) == 1:
 elif len(sys.argv) == 2:
 	movietitle = sys.argv[1]
 	movietitle = str(movietitle)
+	argcount = 1
 elif len(sys.argv) == 3:
 	movietitle = sys.argv[1]
 	movietitle = str(movietitle)
 	movieyear = sys.argv[2]
 	movieyear = int(movieyear)
+	argcount = 2
 else:
 	print(usage)
 	sys.exit(1)
@@ -86,32 +88,40 @@ try:
 	# of the principal actors and their roles, followed by a list of the principal
 	# crew members and their roles.
 
-	elif len(movielist) == 1:
-		cur.execute(aliasquery, [movietitle])
-		aliaslist = cur.fetchall()
+	# If only one movie is given, return actors and crew members:
+	if argcount == 1 and len(movielist) == 1:
+		print(movietitle + " (" + str(movielist[0][2]) + ")")
+		print("===============")
+		print("Starring")
+
+		cur.execute(actorquery, [movietitle])
+		actorlist = cur.fetchall()
 		
-		if len(aliaslist) == 0:
-			print(movietitle + " (" + str(movielist[0][2]) + ")" + " has no alternative releases")
-		else:
-			print(movietitle + " (" + str(movielist[0][2]) + ")" + " was also released as")
-			for record in aliaslist:
-				if record[3] is None and record[4] is None and record[5] is not None:
-					print("'" + record[1] + "' " + "(" + str(record[5]) + ")")
-				if record[3] is not None and record[4] is None:
-					print("'" + record[1] + "' " + "(region: " + str(record[3]).rstrip() + ")")
-				elif record[3] is not None and record[4] is not None:
-					print("'" + record[1] + "' " + "(region: " + str(record[3]).rstrip() + ", language: " + str(record[4]).rstrip() + ")")
+		for record in actorlist:
+			print(" " + record[0] + " as " + record[1])
 		
+		print("and with")
+
+		cur.execute(crewquery, [movietitle])
+		crewlist = cur.fetchall()
+
+		for record in crewlist:
+			print(" " + record[0] + ": " + record[1].capitalize())
+
+	
+
+
+
+	# If more than one movie is given, return list of matching movies
 	else:
+		cur.execute(moviequery, [movietitle])
+		movielist = cur.fetchall()
+		
 		print("Movies matching" + " '" + movietitle + "'")
 		print("===============")
+		
 		for record in movielist:
 			print(record[0], record[1], "("+ str(record[2])+ ")")
-
-
-
-
-
 
 except psycopg2.Error as err:
 	print("DB error: ", err)
