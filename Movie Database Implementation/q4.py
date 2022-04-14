@@ -160,4 +160,3 @@ except psycopg2.Error as err:
 finally:
 	if db:
 		db.close()
-
