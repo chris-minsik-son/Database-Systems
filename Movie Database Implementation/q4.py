@@ -14,6 +14,29 @@ db = None
 
 argc = len(sys.argv)
 
+if len(sys.argv) == 1:
+	print(usage)
+	sys.exit(1)
+elif len(sys.argv) == 2:
+	name = sys.argv[1]
+	name = str(name)
+	argcount = 1
+elif len(sys.argv) == 3:
+	name = sys.argv[1]
+	name = str(name)
+	birthyear = sys.argv[2]
+
+	if birthyear.isnumeric() == True:
+		birthyear = int(birthyear)
+	else:
+		print(usage)
+		sys.exit(1)
+
+	argcount = 2
+else:
+	print(usage)
+	sys.exit(1)
+
 # manipulate database
 
 try:
