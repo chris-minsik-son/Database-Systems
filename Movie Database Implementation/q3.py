@@ -46,10 +46,8 @@ ORDER BY rating DESC, start_year, title;
 actorquery = """
 
 SELECT
-	Movies.title,
 	Names.name,
-	Acting_roles.played,
-	Principals.ordering
+	Acting_roles.played
 FROM Acting_roles
 JOIN Names on (Acting_roles.name_id = Names.id)
 JOIN Movies on (Acting_roles.movie_id = Movies.id)
@@ -62,10 +60,8 @@ ORDER BY Principals.ordering;
 crewquery = """
 
 SELECT
-	Movies.title,
 	Names.name,
-	Crew_roles.role,
-	Principals.ordering
+	Crew_roles.role
 FROM Crew_roles
 JOIN Movies on (Crew_roles.movie_id = Movies.id)
 JOIN Names on (Crew_roles.name_id = Names.id)
