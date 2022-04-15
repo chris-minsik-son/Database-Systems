@@ -38,3 +38,57 @@ vxdb$ python3 q1.py 5
 36 Martin Scorsese
 
 ```
+
+Within groups of people with the same number of movies, people should be ordered alphabetically by his/her name (Names.name). If the user supplies a number less than 1, print the following message and exit.
+
+```python
+vxdb$ python3 q1.py 0
+Usage: q1.py [N]
+```
+
+For more examples of how the script behaves, see [Sample Outputs].
+
+2. Complete the script called "q2.py" so that it prints a list of the different releases (different regions, different languages) for a movie. The script takes a single command-line argument which gives a part of a movie name (could be the entire name or a pattern). If no argument is given, print the following message and exit.
+
+```python
+vxdb$ python3 q2.py
+Usage: q2.py 'PartialMovieTitle'
+```
+
+If there are no movies matching the supplied partial-name, then you should print a message to this effect and quit the program, e.g.
+
+```python
+vxdb$ python3 q2.py xyzzy
+No movie matching 'xyzzy'
+```
+
+If the partial-name matches multiple movies, simply print a list of matching movies (rating, title, year of release), ordered by rating (highest to lowest), then year of release (earliest to latest) and then by title (alphabetical order), e.g.
+
+```
+vxdb$ python3 q2.py mothra
+Movies matching 'mothra'
+===============
+7.1 Godzilla, Mothra and King Ghidorah: Giant Monsters All-Out Attack (2001)
+6.6 Mothra (1961)
+6.5 Mothra vs. Godzilla (1964)
+6.2 Godzilla and Mothra: The Battle for Earth (1992)
+```
+
+If the partial name matches exactly one movie, then print that movie's title and year, and then print a list of all of the other releases (aliases) of the movie. If there are no aliases, print "Title (Year) has no alternative releases". For each alias, show at least the title. If a region exists, add this, and if a language is specified, add it as well, e.g.,
+
+```
+vxdb$ python3 q2.py 2001
+2001: A Space Odyssey (1968) was also released as
+'2001' (region: XWW, language: en)
+'Two Thousand and One: A Space Odyssey' (region: US)
+'2001: Odisea del espacio' (region: UY)
+'2001: Een zwerftocht in de ruimte' (region: NL)
+```
+
+Movie releases should be ordered accoring to the ordering attribute in the Aliases table.
+
+If an alias has no region or language, then put the string in the extra_info field in the parentheses. If it has neither region, language or extra info, just print the local title (without parentheses).
+
+Note that if there are two movies with exactly the same original title, you will not be able to view their releases, since the title alone does not distinguish them. We consider this problem in the next question. Such tests will not be covered in this question.
+
+For more examples of how the script behaves, see [Sample Outputs].
