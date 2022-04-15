@@ -156,7 +156,27 @@ try:
 			print("Filmography for " + str(namelist[0][0]) + " (" + str(namelist[0][1]) + "-" + str(namelist[0][2]) + ")")
 			print("===============")
 		
-		# TO DO
+		cur.execute(personalrating, [namelist[0][0]])
+		rating = cur.fetchall()
+
+		if rating[0][0] is None:
+			print("Personal Rating: 0")
+		else:
+			print("Personal Rating: " + str(rating[0][0]))
+		
+		cur.execute(topgenrelist, [namelist[0][0]])
+		genres = cur.fetchall()
+
+		if genres[0][0] is None:
+			print("Top 3 Genres:")
+		else:
+			print("Top 3 Genres:")
+			for record in genres:
+				print(" " + record[0])
+		
+		print("===============")
+
+		
 
 	# Print list of all matching names with birth year and death year in brackets:
 	elif argcount == 1 and len(namelist) > 1:
