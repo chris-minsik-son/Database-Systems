@@ -83,10 +83,40 @@ FROM Principals
 JOIN Movies on (Principals.movie_id = Movies.id)
 JOIN Names on (Principals.name_id = Names.id)
 JOIN Movie_genres on (Movies.id = Movie_genres.movie_id)
-WHERE Names.name ~* 'Spike Lee'
+WHERE Names.name ~* %s
 GROUP BY Movie_genres.genre
 ORDER BY moviecount DESC, Movie_genres.genre
 LIMIT 3;
+
+"""
+
+actingquery = """
+
+SELECT
+	Movies.title,
+	Movies.start_year,
+	Acting_roles.played
+FROM Principals
+JOIN Movies on (Principals.movie_id = Movies.id)
+JOIN Names on (Principals.name_id = Names.id)
+JOIN Acting_roles on (Acting_roles.movie_id = Movies.id AND Acting_roles.name_id = Names.id)
+WHERE Names.name ~* %s
+ORDER BY Movies.start_year, Movies.title;
+
+"""
+
+crewquery = """
+
+SELECT
+	Movies.title,
+	Movies.start_year,
+	Crew_roles.role
+FROM Principals
+JOIN Movies on (Principals.movie_id = Movies.id)
+JOIN Names on (Principals.name_id = Names.id)
+JOIN Crew_roles on (Crew_roles.movie_id = Movies.id AND Crew_roles.name_id = Names.id)
+WHERE Names.name ~* %s
+ORDER BY Movies.start_year, Movies.title, Principals.ordering, Crew_roles.role;
 
 """
 
