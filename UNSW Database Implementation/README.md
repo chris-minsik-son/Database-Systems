@@ -82,7 +82,6 @@ In this assignment, you will be working with two instances of a database to hold
         termuocpassed   integer  -- units of credit passed this term
     );
     ```
-
     Note that this type is already defined in the database. term in a record can be obtained by termName(terms.id). But it is text type. Use CAST (termName(terms.id) AS char(4)) to convert it into char(4) type.
 
     Only count a UOC value when calculating termuocpassed if the student actually passed the course (i.e. has a grade from the set {SY, PT, PC, PS, CR, DN, HD, A, B, C}) or has an XE grade (for credit from exchange) or a T grade (transferred credit) or a PE grade (professional experience) or a RC or RS grade (research courses)). A null grade or any grade other than those just mentioned should not be treated as a pass. (For simplicity, grade GP and EC are treated as unpassed)
@@ -96,7 +95,6 @@ In this assignment, you will be working with two instances of a database to hold
     M = mark received in a course
     U = units of credit for a course
     ```
-
     Round the WAM value to the nearest integer and refer to the note of Q5. (i.e. the nearest integer of 10.49 is 10; the nearest integer of 10.50 is 11) If no termwam or termwam is 0 this term, set termwam as null; If no courses have been passed this term, set termuocpassed as null. Examples can be found in Example page.
 
     At the end of the transcript, add an extra TermTranscriptRecord which contains
@@ -110,7 +108,6 @@ In this assignment, you will be working with two instances of a database to hold
     M = mark received in a course
     U = units of credit for a course
     ```
-
     The calculation rules are similar between the term and overall. Round the WAM value to the nearest integer. If no overallwam or overallwam is 0, just set overallwam as null; If no courses have been passed overall, set overalluocpassed as null.
 
     For simplicity, ignore the situiation of degree changes. If a student zid is invalid, return an empty table. See the example in Example page.
@@ -184,7 +181,6 @@ In this assignment, you will be working with two instances of a database to hold
     ```
     create or replace function Q10(code text) returns setof text ...
     ```
-
     You only need to consider literal subject codes (e.g. COMP1234) in the pre-reqs. If a pre-req object group contains a pattern, ignore the pattern.
 
     Hint: This function can probably make use of (a variation of) the Q9() function.
