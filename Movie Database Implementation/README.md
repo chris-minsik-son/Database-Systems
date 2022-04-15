@@ -1,6 +1,7 @@
 # Internet Movie Database (IMDB) Assignment
 [🍦 View My Profile](https://github.com/chris-minsik-son)
 [🍰 View Repositories](https://github.com/chris-minsik-son?tab=repositories)
+[🍨 View Main Folder](https://github.com/chris-minsik-son/Database-Systems)
 
 ## Table of Contents
   - [Aims](#aims)
