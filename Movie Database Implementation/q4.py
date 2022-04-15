@@ -90,11 +90,23 @@ LIMIT 3;
 
 """
 
+moviequery = """
+
+SELECT
+	Movies.title,
+	Movies.start_year
+FROM Principals
+JOIN Movies on (Principals.movie_id = Movies.id)
+JOIN Names on (Principals.name_id = Names.id)
+WHERE Names.name ~* %s
+ORDER BY Movies.start_year, Movies.title;
+
+"""
+
 actingquery = """
 
 SELECT
 	Movies.title,
-	Movies.start_year,
 	Acting_roles.played
 FROM Principals
 JOIN Movies on (Principals.movie_id = Movies.id)
@@ -109,7 +121,6 @@ crewquery = """
 
 SELECT
 	Movies.title,
-	Movies.start_year,
 	Crew_roles.role
 FROM Principals
 JOIN Movies on (Principals.movie_id = Movies.id)
@@ -176,7 +187,25 @@ try:
 		
 		print("===============")
 
-		
+		cur.execute(moviequery, [namelist[0][0]])
+		movies = cur.fetchall()
+
+		for record in movies:
+			print(record[0] + " (" + str(record[1]) + ")")
+			
+			# First, check if they had an acting role in the movie
+			cur.execute(actingquery, [namelist[0][0], record[0]])
+			actors = cur.fetchall()
+
+			for actor in actors:
+				print(" playing " + str(actor[1]))
+
+			# Second, check if they had a crew role in the movie
+			cur.execute(crewquery, [namelist[0][0], record[0]])
+			crew = cur.fetchall()
+
+			for member in crew:
+				print(" as " + str(member[1]).capitalize().replace("_", " "))
 
 	# Print list of all matching names with birth year and death year in brackets:
 	elif argcount == 1 and len(namelist) > 1:
