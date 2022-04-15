@@ -178,7 +178,7 @@ In this assignment, you will be working with two instances of a database to hold
 
     Hint: In order to solve this, you'll probably need to look in the PostgreSQL manual at Section 9.4 "String Functions and Operators" and Section 42.5.4 "Executing Dynamic Commands".
 
-    10. Define a PLpgSQL function that takes a subject code and returns the set of all subjects that include this subject in their pre-reqs. This kind of function could help in planning what courses you could study in subsequent semesters.
+10. Define a PLpgSQL function that takes a subject code and returns the set of all subjects that include this subject in their pre-reqs. This kind of function could help in planning what courses you could study in subsequent semesters.
 
     The function is defined as follows:
     ```
