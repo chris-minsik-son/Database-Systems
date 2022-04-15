@@ -30,23 +30,19 @@ Some comments about the data in our copy of IMDB: there seems to be preponderanc
 1. Complete the script called "q1.py" so that it prints a list of the top N people who have directed the most movies (default N = 10). The script takes a single command-line argument which specifies how many people should appear in the list. People should be ordered from largest to smallest by the number of movies he/she directed, and should be displayed as, e.g.
 
 ```
-
 vxdb$ python3 q1.py 5
 48 Woody Allen
 40 Takashi Miike
 39 Jean-Luc Godard
 37 Claude Chabrol
 36 Martin Scorsese
-
 ```
 
 Within groups of people with the same number of movies, people should be ordered alphabetically by his/her name (Names.name). If the user supplies a number less than 1, print the following message and exit.
 
 ```
-
 vxdb$ python3 q1.py 0
 Usage: q1.py [N]
-
 ```
 
 For more examples of how the script behaves, see [Sample Outputs].
@@ -54,25 +50,20 @@ For more examples of how the script behaves, see [Sample Outputs].
 2. Complete the script called "q2.py" so that it prints a list of the different releases (different regions, different languages) for a movie. The script takes a single command-line argument which gives a part of a movie name (could be the entire name or a pattern). If no argument is given, print the following message and exit.
 
 ```
-
 vxdb$ python3 q2.py
 Usage: q2.py 'PartialMovieTitle'
-
 ```
 
 If there are no movies matching the supplied partial-name, then you should print a message to this effect and quit the program, e.g.
 
 ```
-
 vxdb$ python3 q2.py xyzzy
 No movie matching 'xyzzy'
-
 ```
 
 If the partial-name matches multiple movies, simply print a list of matching movies (rating, title, year of release), ordered by rating (highest to lowest), then year of release (earliest to latest) and then by title (alphabetical order), e.g.
 
 ```
-
 vxdb$ python3 q2.py mothra
 Movies matching 'mothra'
 ===============
@@ -80,20 +71,17 @@ Movies matching 'mothra'
 6.6 Mothra (1961)
 6.5 Mothra vs. Godzilla (1964)
 6.2 Godzilla and Mothra: The Battle for Earth (1992)
-
 ```
 
 If the partial name matches exactly one movie, then print that movie's title and year, and then print a list of all of the other releases (aliases) of the movie. If there are no aliases, print "Title (Year) has no alternative releases". For each alias, show at least the title. If a region exists, add this, and if a language is specified, add it as well, e.g.,
 
 ```
-
 vxdb$ python3 q2.py 2001
 2001: A Space Odyssey (1968) was also released as
 '2001' (region: XWW, language: en)
 'Two Thousand and One: A Space Odyssey' (region: US)
 '2001: Odisea del espacio' (region: UY)
 '2001: Een zwerftocht in de ruimte' (region: NL)
-
 ```
 
 Movie releases should be ordered accoring to the ordering attribute in the Aliases table.
@@ -107,19 +95,15 @@ For more examples of how the script behaves, see [Sample Outputs].
 3. Complete the script called "q3.py" so that it prints a list of cast and crew for a movie. The script takes a command-line argument which gives a part of a movie name (could be the entire name or a pattern). It also takes an optional command-line argument, which is a year and can be used to distinguish movies with the same title (or, at least, titles which match the partial movie name).
 
 ```
-
 vxdb$ python3 q3.py
 Usage: q3.py 'MovieTitlePattern' [Year]
-
 ```
 
 If there are no movies matching the supplied partial-name, then you should print a message to this effect and quit the program, e.g.,
 
 ```
-
 vxdb$ python3 q3.py xyzzy
 No movie matching 'xyzzy'
-
 ```
 
 If the partial-name matches multiple movies, simply print a list of matching movies, the same as in Q2. If you need to disambiguate, either use a larger partial-name or add a year to the command line. If a longer partial-name and year still doesn't disambiguate, print a list of matching movies as above.
@@ -131,25 +115,20 @@ Some movies are not in Principals table, they will not be tested. For more examp
 4. Complete the script called "q4.py" so that it prints a filmography for a given person (Names), showing their roles in each of the movies they have been a principal in. The script takes a command-line argument which gives a part of a person's name (could be the entire name or a pattern). It also takes an optional command-line argument, which is a year (their birth year) and which can be used to distinguish people with similar names. If there are no arguments or there are invalid arguments, print the following message and exit.
 
 ```
-
 vxdb$ python3 q4.py
 Usage: q4.py 'NamePattern' [Year]
-
 ```
 
 If the name pattern, optionally combined with a year, doesn't match anyone in the Names table, then you should print a message to this effect and quit the program
 
 ```
-
 vxdb$ python3 q4.py Smmith
 No name matching 'Smmith'
-
 ```
 
 If the name pattern, optionally combined with a year, matches more than one person, then print a list of the matching people, with the years they were born and died in parentheses afer the name. If birth year is invalid, e.g., null, regardless of whether death year is valid or not, print (???); if birth year is valid but death year is invalid, print (bbbb-); if both are valid, print (bbbb-dddd). Below is an example.
 
 ```
-
 vxdb$: python3 q4.py rooney
 Names matching 'rooney'
 ===============
@@ -160,7 +139,6 @@ Mickey Rooney (1920-2014)
 Nancy Rooney (???)
 Rooney Mara (1985-)
 Sharon Rooney (1988-)
-
 ```
 Order people by their names alphabetically, then by birth year in chronological order. If two people have the same name and birth year, put them in order of their Names.id value (ascending).
 
@@ -173,7 +151,6 @@ The Second Part: A list of all the movies (with start years) they have been a pr
 Note that one person could be both an actor and a director in the same movie. If a person has multiple roles as an actor in one movie, then show the records in order of the role name. Similarly for multiple roles as a crew member, order by role name.
 
 ```
-
 vxdb$ python3 q4.py 'spike lee'
 Filmography for Spike Lee (1957-)
 ===============
@@ -198,7 +175,6 @@ Mo' Better Blues (1990)
  as Director
  as Writer
 ... etc. etc. etc. ...
-
 ```
 
 For more examples of how the script behaves, see [Sample Outputs].
