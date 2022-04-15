@@ -100,7 +100,7 @@ FROM Principals
 JOIN Movies on (Principals.movie_id = Movies.id)
 JOIN Names on (Principals.name_id = Names.id)
 JOIN Acting_roles on (Acting_roles.movie_id = Movies.id AND Acting_roles.name_id = Names.id)
-WHERE Names.name ~* %s
+WHERE Names.name ~* %s AND Movies.title ~* %s
 ORDER BY Movies.start_year, Movies.title;
 
 """
@@ -115,7 +115,7 @@ FROM Principals
 JOIN Movies on (Principals.movie_id = Movies.id)
 JOIN Names on (Principals.name_id = Names.id)
 JOIN Crew_roles on (Crew_roles.movie_id = Movies.id AND Crew_roles.name_id = Names.id)
-WHERE Names.name ~* %s
+WHERE Names.name ~* %s AND Movies.title ~* %s
 ORDER BY Movies.start_year, Movies.title, Principals.ordering, Crew_roles.role;
 
 """
@@ -155,6 +155,8 @@ try:
 		else:
 			print("Filmography for " + str(namelist[0][0]) + " (" + str(namelist[0][1]) + "-" + str(namelist[0][2]) + ")")
 			print("===============")
+		
+		# TO DO
 
 	# Print list of all matching names with birth year and death year in brackets:
 	elif argcount == 1 and len(namelist) > 1:
