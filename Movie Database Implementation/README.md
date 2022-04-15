@@ -30,23 +30,23 @@ Some comments about the data in our copy of IMDB: there seems to be preponderanc
 ## Questions
 1. Complete the script called "q1.py" so that it prints a list of the top N people who have directed the most movies (default N = 10). The script takes a single command-line argument which specifies how many people should appear in the list. People should be ordered from largest to smallest by the number of movies he/she directed, and should be displayed as, e.g.
 
-```
-vxdb$ python3 q1.py 5
-48 Woody Allen
-40 Takashi Miike
-39 Jean-Luc Godard
-37 Claude Chabrol
-36 Martin Scorsese
-```
+    ```
+    vxdb$ python3 q1.py 5
+    48 Woody Allen
+    40 Takashi Miike
+    39 Jean-Luc Godard
+    37 Claude Chabrol
+    36 Martin Scorsese
+    ```
 
-Within groups of people with the same number of movies, people should be ordered alphabetically by his/her name (Names.name). If the user supplies a number less than 1, print the following message and exit.
+    Within groups of people with the same number of movies, people should be ordered alphabetically by his/her name (Names.name). If the user supplies a number less than 1, print the following message and exit.
 
-```
-vxdb$ python3 q1.py 0
-Usage: q1.py [N]
-```
+    ```
+    vxdb$ python3 q1.py 0
+    Usage: q1.py [N]
+    ```
 
-For more examples of how the script behaves, see [Sample Outputs].
+    For more examples of how the script behaves, see [Sample Outputs].
 
 2. Complete the script called "q2.py" so that it prints a list of the different releases (different regions, different languages) for a movie. The script takes a single command-line argument which gives a part of a movie name (could be the entire name or a pattern). If no argument is given, print the following message and exit.
 
