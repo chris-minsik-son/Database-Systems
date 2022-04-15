@@ -154,7 +154,7 @@ try:
 			sys.exit(1)
 
 	# Construct profile for the single person matched:
-	if argcount == 1 and len(namelist) == 1:
+	if (argcount == 1 and len(namelist) == 1) or (argcount == 2 and len(namelist) == 1):
 		if namelist[0][1] is None:
 			print("Filmography for " + str(namelist[0][0]) + " (???)")
 			print("===============")
@@ -178,7 +178,7 @@ try:
 		cur.execute(topgenrelist, [namelist[0][0]])
 		genres = cur.fetchall()
 
-		if genres[0][0] is None:
+		if genres is None:
 			print("Top 3 Genres:")
 		else:
 			print("Top 3 Genres:")
@@ -191,17 +191,23 @@ try:
 		movies = cur.fetchall()
 
 		for record in movies:
+			# Print movie name and movie year
 			print(record[0] + " (" + str(record[1]) + ")")
 			
 			# First, check if they had an acting role in the movie
-			cur.execute(actingquery, [namelist[0][0], record[0]])
-			actors = cur.fetchall()
+			# Append ^ and $ to the string to match exact movie name
+			moviestart = '^'
+			movieend = '$'
+			moviename = moviestart + str(record[0]) + movieend
 
+			cur.execute(actingquery, [namelist[0][0], moviename])
+			actors = cur.fetchall()
+			
 			for actor in actors:
 				print(" playing " + str(actor[1]))
 
 			# Second, check if they had a crew role in the movie
-			cur.execute(crewquery, [namelist[0][0], record[0]])
+			cur.execute(crewquery, [namelist[0][0], moviename])
 			crew = cur.fetchall()
 
 			for member in crew:
@@ -220,10 +226,6 @@ try:
 			else:
 				print(str(record[0]) + " (" + str(record[1]) + "-" + str(record[2]) + ")")
 	
-	elif argcount == 2 and len(namelist) == 1:
-		# TO DO
-		print("TO DO")
-
 	elif argcount == 2 and len(namelist) > 1:
 		print("Names matching " + "'" + name + "'")
 		print("===============")
